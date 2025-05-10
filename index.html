@@ -712,7 +712,7 @@
                 <div class="md:w-1/2 animate-slideIn" style="animation-delay: 0.2s;">
                     <div class="card-glass p-8 rounded-xl h-full hover:shadow-lg hover:shadow-primary/10 transition">
                         <h3 class="text-2xl font-bold mb-6 gradient-text">Send Me a Message</h3>
-                        <form action="https://formspree.io/f/xblokkvv" method="POST" class="space-y-4">
+                        <form id="contact-form" action="https://formspree.io/f/xblokkvv" method="POST" class="space-y-4">
                             <div>
                                 <label for="name" class="block mb-2">Your Name</label>
                                 <input type="text" id="name" name="name" required
@@ -738,7 +738,7 @@
                                 Send Message
                             </button>
                         </form>
-                        
+                        <p id="success-message" class="hidden text-green-500 font-medium mt-4">Pesan berhasil dikirim Terimakasih Sudah Menghubungi!</p>
                     </div>
                 </div>
             </div>
@@ -935,6 +935,26 @@
                     });
                 });
             });
+        });
+
+        const form = document.getElementById("contact-form");
+        const successMessage = document.getElementById("success-message");
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const data = new FormData(form);
+            const res = await fetch("https://formspree.io/f/xblokkvv", {
+            method: "POST",
+            body: data,
+            headers: { 'Accept': 'application/json' }
+            });
+
+            if (res.ok) {
+            successMessage.classList.remove("hidden");
+            form.reset();
+            } else {
+            alert("Terjadi kesalahan. Coba lagi nanti.");
+            }
         });
     </script>
 </body>
